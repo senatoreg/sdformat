@@ -1,0 +1,80 @@
+Source: sdformat
+Section: libs
+Priority: optional
+Maintainer: Giovanni Senatore <giovanni.senatore@gmail.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ cmake,
+ libtinyxml2-dev,
+ libgz-math-dev,
+ libgz-utils-dev,
+ python3-all,
+ python3-psutil,
+# liburdf-dev,
+ liburdfdom-dev,
+Standards-Version: 4.6.2
+Homepage: https://gazebosim.org/
+#Vcs-Browser: https://salsa.debian.org/debian/sdformat
+#Vcs-Git: https://salsa.debian.org/debian/sdformat.git
+
+Package: libsdformat-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libsdformat15 (= ${binary:Version}),
+ ${misc:Depends},
+Description: Simulation Description Format (SDFormat) parser and description files - development files
+ SDFormat is an XML file format that describes environments, objects, and robots
+ in a manner suitable for robotic applications. SDFormat is capable of representing
+ and describing different physic engines, lighting properties, terrain, static or
+ dynamic objects, and articulated robots with various sensors, and acutators. The
+ format of SDFormat is also described by XML, which facilitates updates and allows
+ conversion from previous versions.
+
+Package: libsdformat15
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: Simulation Description Format (SDFormat) parser and description files
+ SDFormat is an XML file format that describes environments, objects, and robots
+ in a manner suitable for robotic applications. SDFormat is capable of representing
+ and describing different physic engines, lighting properties, terrain, static or
+ dynamic objects, and articulated robots with various sensors, and acutators. The
+ format of SDFormat is also described by XML, which facilitates updates and allows
+ conversion from previous versions.
+
+Package: ruby-sdformat
+Architecture: any
+Multi-Arch: same
+Depends:
+ ruby,
+ ${shlibs:Depends},
+ ${misc:Depends},
+ libsdformat15 (= ${binary:Version}),
+Description: Simulation Description Format (SDFormat) parser and description files
+ SDFormat is an XML file format that describes environments, objects, and robots
+ in a manner suitable for robotic applications. SDFormat is capable of representing
+ and describing different physic engines, lighting properties, terrain, static or
+ dynamic objects, and articulated robots with various sensors, and acutators. The
+ format of SDFormat is also described by XML, which facilitates updates and allows
+ conversion from previous versions.
+
+Package: python3-sdformat
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${python3:Depends},
+ ${shlibs:Depends},
+ ${misc:Depends},
+ libsdformat15 (= ${binary:Version}),
+Description: Simulation Description Format (SDFormat) parser and description files
+ SDFormat is an XML file format that describes environments, objects, and robots
+ in a manner suitable for robotic applications. SDFormat is capable of representing
+ and describing different physic engines, lighting properties, terrain, static or
+ dynamic objects, and articulated robots with various sensors, and acutators. The
+ format of SDFormat is also described by XML, which facilitates updates and allows
+ conversion from previous versions.

@@ -1,0 +1,13 @@
+--- a/python/CMakeLists.txt	2023-05-21 11:57:44.999618380 +0200
++++ b/python/CMakeLists.txt	2023-05-21 11:59:13.367700172 +0200
+@@ -212,8 +212,8 @@
+         "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test/${test}.py")
+     endif()
+     set(_env_vars)
+-    list(APPEND _env_vars "PYTHONPATH=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/python/:${CMAKE_BINARY_DIR}/lib:$ENV{PYTHONPATH}")
+-    list(APPEND _env_vars "LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}:$ENV{LD_LIBRARY_PATH}")
++    list(APPEND _env_vars "PYTHONPATH=${CMAKE_BINARY_DIR}/lib:$ENV{PYTHONPATH}")
++    list(APPEND _env_vars "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$ENV{LD_LIBRARY_PATH}")
+     set_tests_properties(${test}.py PROPERTIES
+       ENVIRONMENT "${_env_vars}")
+   endforeach()
