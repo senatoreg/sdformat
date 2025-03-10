@@ -1,6 +1,8 @@
---- a/tools/xmlschema.py	2025-03-05 10:23:30.254720049 +0100
-+++ b/tools/xmlschema.py	2025-03-10 22:23:47.189004064 +0100
-@@ -101,14 +101,14 @@
+diff --git a/tools/xmlschema.py b/tools/xmlschema.py
+index b3518f9e..4b342255 100755
+--- a/tools/xmlschema.py
++++ b/tools/xmlschema.py
+@@ -101,14 +101,14 @@ def print_documentation(element: ElementTree.Element) -> List[str]:
      return lines
  
  
@@ -17,7 +19,7 @@
          loc += filename.replace(".sdf", ".xsd")
          lines.append(f"<xsd:include schemaLocation='{loc}'/>")
      return lines
-@@ -147,7 +147,7 @@
+@@ -147,7 +147,7 @@ def print_plugin_element(element: ElementTree.Element) -> List[str]:
      return lines
  
  
@@ -26,7 +28,7 @@
      """
      Print a child element of the sdf definition
      """
-@@ -173,7 +173,10 @@
+@@ -173,7 +173,10 @@ def print_element(element: ElementTree.Element) -> List[str]:
          lines.append("    <xsd:choice maxOccurs='unbounded'>")
  
          for child_element in element.findall("element"):
@@ -38,7 +40,7 @@
  
          lines.append("    </xsd:choice>")
  
-@@ -222,7 +225,7 @@
+@@ -222,7 +225,7 @@ def print_attribute(element: ElementTree.Element) -> List[str]:
      return lines
  
  
@@ -47,7 +49,12 @@
      """
      Print xsd for top level SDF element
      """
-@@ -237,12 +240,12 @@
+@@ -233,16 +236,20 @@ def print_xsd(element: ElementTree.Element, sdf_root_dir: str) -> List[str]:
+ 
+     elements = element.findall("element")
+     attributes = element.findall("attribute")
+-    includes = element.findall("include")
++    includes = element.findall(".//include")
  
      lines.extend(print_documentation(element))
      lines.append(
@@ -56,13 +63,17 @@
      )
  
      # Reference any includes in the SDF file
++    included = []
      for include in includes:
 -        lines.extend(print_include(include))
-+        lines.extend(print_include(include, install_dir))
++        filename = get_attribute(include, "filename")
++        if filename not in included:
++            lines.extend(print_include(include, install_dir))
++            included.append(filename)
  
      if len(elements) or len(attributes) or len(includes):
          lines.append(f"<xsd:element name='{elem_name}'>")
-@@ -251,12 +254,20 @@
+@@ -251,12 +258,20 @@ def print_xsd(element: ElementTree.Element, sdf_root_dir: str) -> List[str]:
          if elem_name != "plugin" and (len(elements) or len(includes)):
              lines.append("    <xsd:choice maxOccurs='unbounded'>")
  
@@ -84,7 +95,7 @@
                  lines.extend(indent_lines(element_lines, 6))
  
          for include_element in includes:
-@@ -269,6 +280,13 @@
+@@ -269,6 +284,13 @@ def print_xsd(element: ElementTree.Element, sdf_root_dir: str) -> List[str]:
          for attribute_element in attributes:
              lines.extend(indent_lines(print_attribute(attribute_element), 4))
  
@@ -98,7 +109,7 @@
          lines.append("  </xsd:complexType>")
          lines.append("</xsd:element>")
      else:
-@@ -281,7 +299,7 @@
+@@ -281,7 +303,7 @@ def print_xsd(element: ElementTree.Element, sdf_root_dir: str) -> List[str]:
      return lines
  
  
@@ -107,7 +118,7 @@
      """
      Produce an XSD file from an input SDF file
      """
-@@ -290,7 +308,7 @@
+@@ -290,7 +312,7 @@ def process(input_file_sdf: str, sdf_dir: str) -> List[str]:
      root = tree.getroot()
      lines.append("<?xml version='1.0' encoding='UTF-8'?>")
      lines.append("<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>")
@@ -116,7 +127,7 @@
      lines.append("</xsd:schema>")
      return lines
  
-@@ -302,10 +320,11 @@
+@@ -302,10 +324,11 @@ if __name__ == "__main__":
      parser.add_argument("--input-file")
      parser.add_argument("--sdf-dir")
      parser.add_argument("--output-dir")
