@@ -17,7 +17,7 @@
 #include <optional>
 #include <gz/math/Inertial.hh>
 #include <gz/math/Material.hh>
-
+#include "sdf/Console.hh"
 #include "sdf/parser.hh"
 #include "sdf/Sphere.hh"
 #include "Utils.hh"
@@ -75,7 +75,16 @@ Errors Sphere::Load(ElementPtr _sdf)
           "Invalid <radius> data for a <sphere> geometry. "
           "Using a radius of 1.0."});
     }
-    this->dataPtr->sphere.SetRadius(pair.first);
+    else
+    {
+      if (pair.first <= 0)
+      {
+        sdfwarn << "Value of <radius> is negative. "
+            << "Using default value of 1.0.\n";
+        pair.first = 1.0;
+      }
+      this->dataPtr->sphere.SetRadius(pair.first);
+    }
   }
   else
   {
@@ -136,6 +145,13 @@ std::optional<gz::math::Inertiald> Sphere::CalculateInertial(double _density)
     sphereInertial.SetMassMatrix(sphereMassMatrix.value());
     return std::make_optional(sphereInertial);
   }
+}
+
+/////////////////////////////////////////////////
+gz::math::AxisAlignedBox Sphere::AxisAlignedBox() const
+{
+  auto halfSize = this->Radius() * gz::math::Vector3d::One;
+  return gz::math::AxisAlignedBox(-halfSize, halfSize);
 }
 
 /////////////////////////////////////////////////

@@ -15,9 +15,10 @@
  *
 */
 #include <sstream>
-#include <optional>
+#include <utility>
 
 #include <gz/math/Inertial.hh>
+#include "sdf/Console.hh"
 #include "sdf/Cylinder.hh"
 #include "sdf/parser.hh"
 #include "Utils.hh"
@@ -77,7 +78,16 @@ Errors Cylinder::Load(ElementPtr _sdf)
          << this->dataPtr->cylinder.Radius() << ".";
       errors.push_back({ErrorCode::ELEMENT_INVALID, ss.str()});
     }
-    this->dataPtr->cylinder.SetRadius(pair.first);
+    else
+    {
+      if (pair.first <= 0)
+      {
+        sdfwarn << "Value of <radius> is negative. "
+            << "Using default value of 0.5.\n";
+        pair.first = 0.5;
+      }
+      this->dataPtr->cylinder.SetRadius(pair.first);
+    }
   }
 
   {
@@ -92,7 +102,16 @@ Errors Cylinder::Load(ElementPtr _sdf)
          << this->dataPtr->cylinder.Length() << ".";
       errors.push_back({ErrorCode::ELEMENT_INVALID, ss.str()});
     }
-    this->dataPtr->cylinder.SetLength(pair.first);
+    else
+    {
+      if (pair.first <= 0)
+      {
+        sdfwarn << "Value of <length> is negative. "
+            << "Using default value of 1.\n";
+        pair.first = 1.0;
+      }
+      this->dataPtr->cylinder.SetLength(pair.first);
+    }
   }
 
   return errors;
@@ -157,6 +176,14 @@ std::optional<gz::math::Inertiald> Cylinder::CalculateInertial(double _density)
     cylinderInertial.SetMassMatrix(cylinderMassMatrix.value());
     return std::make_optional(cylinderInertial);
   }
+}
+
+/////////////////////////////////////////////////
+gz::math::AxisAlignedBox Cylinder::AxisAlignedBox() const
+{
+  auto halfSize = gz::math::Vector3d(
+    this->Radius(), this->Radius(), this->Length() / 2);
+  return gz::math::AxisAlignedBox(-halfSize, halfSize);
 }
 
 /////////////////////////////////////////////////

@@ -20,6 +20,7 @@
 #include <gz/math/Material.hh>
 #include <gz/math/Inertial.hh>
 #include "sdf/Capsule.hh"
+#include "sdf/Console.hh"
 #include "sdf/parser.hh"
 #include "Utils.hh"
 
@@ -78,7 +79,16 @@ Errors Capsule::Load(ElementPtr _sdf)
          << this->dataPtr->capsule.Radius() << ".";
       errors.push_back({ErrorCode::ELEMENT_INVALID, ss.str()});
     }
-    this->dataPtr->capsule.SetRadius(pair.first);
+    else
+    {
+      if (pair.first <= 0)
+      {
+        sdfwarn << "Value of <radius> is negative. "
+            << "Using default value of 0.5.\n";
+        pair.first = 0.5;
+      }
+      this->dataPtr->capsule.SetRadius(pair.first);
+    }
   }
 
   {
@@ -93,7 +103,16 @@ Errors Capsule::Load(ElementPtr _sdf)
          << this->dataPtr->capsule.Length() << ".";
       errors.push_back({ErrorCode::ELEMENT_INVALID, ss.str()});
     }
-    this->dataPtr->capsule.SetLength(pair.first);
+    else
+    {
+      if (pair.first <= 0)
+      {
+        sdfwarn << "Value of <length> is negative. "
+            << "Using default value of 1.\n";
+        pair.first = 1.0;
+      }
+      this->dataPtr->capsule.SetLength(pair.first);
+    }
   }
 
   return errors;
@@ -159,6 +178,14 @@ std::optional<gz::math::Inertiald> Capsule::CalculateInertial(double _density)
     capsuleInertial.SetMassMatrix(capsuleMassMatrix.value());
     return std::make_optional(capsuleInertial);
   }
+}
+
+/////////////////////////////////////////////////
+gz::math::AxisAlignedBox Capsule::AxisAlignedBox() const
+{
+  auto halfSize = this->Radius() * gz::math::Vector3d::One +
+    this->Length() / 2 * gz::math::Vector3d::UnitZ;
+  return gz::math::AxisAlignedBox(-halfSize, halfSize);
 }
 
 /////////////////////////////////////////////////

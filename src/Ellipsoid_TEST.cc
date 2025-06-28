@@ -129,10 +129,23 @@ TEST(DOMEllipsoid, Load)
   sdf->SetName("ellipsoid");
   errors = ellipsoid.Load(sdf);
   ASSERT_EQ(1u, errors.size());
-  EXPECT_EQ(sdf::ErrorCode::ELEMENT_MISSING, errors[0].Code());
   EXPECT_NE(std::string::npos, errors[0].Message().find("missing a <radii>"))
       << errors[0].Message();
   EXPECT_NE(nullptr, ellipsoid.Element());
+
+  // Add <radii> element description
+  sdf::ElementPtr radiiDesc(new sdf::Element());
+  radiiDesc->SetName("radii");
+  radiiDesc->AddValue("vector3", "1 1 1", true, "radii of the ellipsoid");
+  sdf->AddElementDescription(radiiDesc);
+
+  // Negative <radii> element
+  sdf::ElementPtr radiiElem = sdf->AddElement("radii");
+  radiiElem->Set<gz::math::Vector3d>(gz::math::Vector3d(-1, -1, -1));
+  errors = ellipsoid.Load(sdf);
+  ASSERT_EQ(0u, errors.size());
+  EXPECT_NE(nullptr, ellipsoid.Element());
+  EXPECT_EQ(gz::math::Vector3d::One, ellipsoid.Shape().Radii());
 }
 
 /////////////////////////////////////////////////
@@ -151,7 +164,7 @@ TEST(DOMEllipsoid, CalculateInertial)
 {
   sdf::Ellipsoid ellipsoid;
 
-  // density of aluminium
+  // density of Aluminum
   const double density = 2170;
 
   // Invalid dimensions leading to std::nullopt return in
@@ -241,4 +254,16 @@ TEST(DOMEllipsoid, ToElementErrorOutput)
 
   // Check nothing has been printed
   EXPECT_TRUE(buffer.str().empty()) << buffer.str();
+}
+
+/////////////////////////////////////////////////
+TEST(DOMEllipsoid, AxisAlignedBox)
+{
+  sdf::Ellipsoid ellipsoid;
+  ellipsoid.SetRadii(gz::math::Vector3d(1.5, 0.5, 0.25));
+
+  auto aabb = ellipsoid.AxisAlignedBox();
+  EXPECT_EQ(gz::math::Vector3d(3.0, 1.0, 0.5), aabb.Size());
+  EXPECT_EQ(gz::math::Vector3d(-1.5, -0.5, -0.25), aabb.Min());
+  EXPECT_EQ(gz::math::Vector3d(1.5, 0.5, 0.25), aabb.Max());
 }

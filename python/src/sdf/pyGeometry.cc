@@ -18,6 +18,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/functional.h>
 
 #include "sdf/ParserConfig.hh"
 
@@ -83,7 +84,7 @@ void defineGeometry(pybind11::object module)
          "Get the ellipsoid geometry, or None if the contained "
          "geometry is not a ellipsoid.")
     .def("set_ellipsoid_shape", &sdf::Geometry::SetEllipsoidShape,
-         "Set the elliposid shape.")
+         "Set the ellipsoid shape.")
     .def("sphere_shape", &sdf::Geometry::SphereShape,
          pybind11::return_value_policy::reference,
          "Get the sphere geometry, or None if the contained "
@@ -107,6 +108,8 @@ void defineGeometry(pybind11::object module)
     .def("heightmap_shape", &sdf::Geometry::HeightmapShape,
           pybind11::return_value_policy::reference,
           "Get the heightmap geometry.")
+    .def("axis_aligned_box", &sdf::Geometry::AxisAlignedBox,
+         "Get the axis-aligned box that contains the Geometry.")
     .def("__copy__", [](const sdf::Geometry &self) {
       return sdf::Geometry(self);
     })
