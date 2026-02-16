@@ -12,6 +12,43 @@ forward programmatically.
 This document aims to contain similar information to those files
 but with improved human-readability..
 
+## libsdformat 15.x to 16.x
+
+1. The major version has been removed from the cmake project name and the
+   package.xml package name. Use `find_package(sdformat)` instead of
+   `find_package(sdformatX)` going forward.
+
+### Additions
+
+- **sdf/Element.hh**:
+  + `sdf::ElementConstPtr ElementDescription(unsigned int) const`
+  + `sdf::ElementConstPtr ElementDescription(const std::string &) const`
+  + `sdf::ElementPtr MutableElementDescription(unsigned int)`
+  + `sdf::ElementPtr MutableElementDescription(const std::string &)`
+
+### Deprecations
+- **sdf/Element.hh**:
+  + Mutable access to an element description via `Element::GetElementDescription` has been deprecated. Please use `Element::MutableElementDescription` instead. For immutable access, please use `Element::ElementDescription`.
+  + ***Deprecation:*** `sdf::ElementPtr GetElementDescription(unsigned int)`
+  + ***Replacement:*** `sdf::ElementConstPtr ElementDescription(unsigned int) const`
+  + ***Deprecation:*** `sdf::ElementPtr GetElementDescription(const std::string &)`
+  + ***Replacement:*** `sdf::ElementConstPtr ElementDescription(const std::string &) const`
+
+### Removals
+
+- **sdf/config.hh**:
+   + The macro `SDF_SHARE_PATH` has been removed.
+     Please use `sdf::getSharePath()` instead.
+   + The macro `SDF_VERSION_PATH` has been removed.
+
+- **sdf/Camera.hh**:
+   + The `//sensor/camera/optical_frame_id` SDF element and corresponding functions
+     in the Camera DOM class are removed. Please specify camera frame using
+     the `//sensor/frame_id` SDF element instead.
+   + ***removal:*** std::string OpticalFrameId() const
+   + ***Replacement:*** std::string Sensor::FrameId() const
+   + ***removal:*** void SetOpticalFrameId(const std::string &)
+   + ***Replacement:*** void Sensor::SetFrameId(const std::string &)
 
 ## libsdformat 15.1.1 to 15.2.0
 
@@ -72,6 +109,19 @@ that the resulting mass matches the specified mass.
 
 - **sdf/parser.hh**:
    + `bool checkJointParentChildLinkNames(const sdf::Root *)` (use `checkJointParentChildNames(const sdf::Root *)` instead)
+
+## libsdformat 14.6.0 to 14.7.0
+
+1. Inertial parameters can now be automatically calculated with a specified
+mass. Previously when the `//inertial/@auto` attribute is set to true, the
+`//inertial/mass` value is ignored and the mass, center of mass location, and
+inertia matrix are computed based on the collision geometries and densities.
+The new behavior is that if `//inertial/mass` is specified, the inertial values
+will be computed to preserve the specified mass. This is done by first
+calculating inertial parameters from all collisions using density as usual,
+calculating the ratio between user-specified mass and the auto-computed mass,
+and rescaling the computed mass and moment of inertia by that mass ratio so
+that the resulting mass matches the specified mass.
 
 ## libsdformat 13.x to 14.x
 

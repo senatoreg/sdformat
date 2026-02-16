@@ -19,9 +19,12 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <mutex>
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include <gz/utils/NeverDestroyed.hh>
 
 #include "sdf/parser.hh"
 #include "sdf/Assert.hh"
@@ -41,10 +44,6 @@ namespace sdf
 {
 inline namespace SDF_VERSION_NAMESPACE
 {
-// TODO(azeey) This violates the Google style guide. Change to a function that
-// returns the version string when possible.
-std::string SDF::version = SDF_VERSION;  // NOLINT(runtime/string)
-
 std::string sdfSharePath()
 {
   std::string sharePath = sdf::getSharePath();
@@ -220,6 +219,18 @@ SDF::SDF()
 {
 }
 
+/////////////////////////////////////////////////
+SDF::SDF(const SDF& other)
+{
+  this->dataPtr = std::make_unique<SDFPrivate>(*other.dataPtr);
+}
+
+/////////////////////////////////////////////////
+SDF& SDF::operator=(const SDF& other)
+{
+  this->dataPtr = std::make_unique<SDFPrivate>(*other.dataPtr);
+  return *this;
+}
 /////////////////////////////////////////////////
 SDF::~SDF()
 {
@@ -488,15 +499,32 @@ const std::string &SDF::OriginalVersion() const
 }
 
 /////////////////////////////////////////////////
+namespace {
+// Infrastructe to support the SDF::Version(...) static getter and setter.
+struct GlobalVersion {
+  std::mutex mutex;
+  std::string version{SDF_VERSION};
+};
+GlobalVersion& GetMutableGlobalVersionSingleton() {
+  static gz::utils::NeverDestroyed<GlobalVersion> singleton;
+  return singleton.Access();
+}
+}  // namespace
+
+/////////////////////////////////////////////////
 std::string SDF::Version()
 {
-  return version;
+  GlobalVersion& singleton = GetMutableGlobalVersionSingleton();
+  std::lock_guard guard{singleton.mutex};
+  return std::string{singleton.version};
 }
 
 /////////////////////////////////////////////////
 void SDF::Version(const std::string &_version)
 {
-  version = _version;
+  GlobalVersion& singleton = GetMutableGlobalVersionSingleton();
+  std::lock_guard guard{singleton.mutex};
+  singleton.version = _version;
 }
 
 /////////////////////////////////////////////////

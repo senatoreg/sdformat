@@ -13,10 +13,10 @@
 # limitations under the License.
 
 import copy
-from gz_test_deps.math import Angle, Pose3d, Vector2d
+from gz.math import Angle, Pose3d, Vector2d
 import math
-from gz_test_deps.sdformat import Camera
-import gz_test_deps.sdformat as sdf
+from sdformat import Camera
+import sdformat as sdf
 import unittest
 
 class CameraTEST(unittest.TestCase):
@@ -134,10 +134,6 @@ class CameraTEST(unittest.TestCase):
       self.assertFalse(cam.pose_relative_to())
       cam.set_pose_relative_to("/frame")
       self.assertEqual("/frame", cam.pose_relative_to())
-
-      self.assertFalse(cam.optical_frame_id());
-      cam.set_optical_frame_id("/optical_frame");
-      self.assertEqual("/optical_frame", cam.optical_frame_id());
 
       self.assertEqual("stereographic", cam.lens_type())
       cam.set_lens_type("custom")

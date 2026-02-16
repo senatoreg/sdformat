@@ -16,8 +16,8 @@ import copy
 
 import math
 
-from gz_test_deps.math import AxisAlignedBox, Inertiald, MassMatrix3d, Pose3d, Vector3d
-from gz_test_deps.sdformat import Capsule
+from gz.math import AxisAlignedBox, Inertiald, MassMatrix3d, Pose3d, Vector3d
+from sdformat import Capsule
 
 import unittest
 
@@ -106,7 +106,6 @@ class CapsuleTEST(unittest.TestCase):
     capsule.shape().set_length(0.456)
     self.assertEqual(0.123, capsule.radius())
     self.assertEqual(0.456, capsule.length())
-
 
   def test_calculate_inertial(self):
     capsule = Capsule()

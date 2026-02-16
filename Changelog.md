@@ -1,3 +1,74 @@
+## libsdformat 16.X
+
+### libsdformat 16.0.1 (2026-01-20)
+
+1. **Baseline:** this includes all changes from 16.0.0 and earlier.
+
+1. Find jetty packages with explicit version
+    * [Pull request #1618](https://github.com/gazebosim/sdformat/pull/1618)
+
+1. [bazel/infra] CI updates
+    * [Pull request #1609](https://github.com/gazebosim/sdformat/pull/1609)
+    * [Pull request #1606](https://github.com/gazebosim/sdformat/pull/1606)
+    * [Pull request #1597](https://github.com/gazebosim/sdformat/pull/1597)
+
+1. Introduce a cache to improve performance of construction of sdf::Root
+    * [Pull request #1610](https://github.com/gazebosim/sdformat/pull/1610)
+
+1. macos.yml: install brew build dependencies
+    * [Pull request #1600](https://github.com/gazebosim/sdformat/pull/1600)
+
+1. Fixed windows warning
+    * [Pull request #1595](https://github.com/gazebosim/sdformat/pull/1595)
+
+1. Respect GZ_PYTHON_INSTALL_PATH if passed as an argument
+    * [Pull request #1586](https://github.com/gazebosim/sdformat/pull/1586)
+
+
+### libsdformat 16.0.0 (2025-09-30)
+
+1. **Baseline:** this includes all changes from 15.3.0 and earlier.
+
+1. Optimize load time and memory consumption by reusing element descriptions
+    * [Pull request #1589](https://github.com/gazebosim/sdformat/pull/1589)
+
+1. Infrastructure
+    * [Pull request #1588](https://github.com/gazebosim/sdformat/pull/1588)
+
+1. [Bazel] Update bazel module to use jetty release branches
+    * [Pull request #1584](https://github.com/gazebosim/sdformat/pull/1584)
+
+1. [Bazel] Fix dep issue when building with clang
+    * [Pull request #1581](https://github.com/gazebosim/sdformat/pull/1581)
+
+1. [Bazel] Add back sdformat.hh auto-generated lumped header
+    * [Pull request #1570](https://github.com/gazebosim/sdformat/pull/1570)
+
+1. [Bazel] Fix inclusion of sdf/ data deps
+    * [Pull request #1567](https://github.com/gazebosim/sdformat/pull/1567)
+
+1. [Bazel] Fix build errors with clang
+    * [Pull request #1566](https://github.com/gazebosim/sdformat/pull/1566)
+
+1. Install exe and spec files to unversioned folders
+    * [Pull request #1569](https://github.com/gazebosim/sdformat/pull/1569)
+
+1. Remove gz_test_deps from python tests
+    * [Pull request #1564](https://github.com/gazebosim/sdformat/pull/1564)
+
+1. Bump dependency versions of gz-cmake and others in jetty and remove version from package names
+    * [Pull request #1561](https://github.com/gazebosim/sdformat/pull/1561)
+    * [Release-tools issue #1309](https://github.com/gazebo-tooling/release-tools/issues/1309)
+
+1. Fix initialization and thread-safety of SDF::Version() global
+    * [Pull request #1522](https://github.com/gazebosim/sdformat/pull/1522)
+
+1. Remove deprecations from Camera.hh, ParserConfig.hh, and config.hh
+    * [Pull request #1519](https://github.com/gazebosim/sdformat/pull/1519)
+
+1. Bump major version to 16
+    * [Pull request #1487](https://github.com/gazebosim/sdformat/pull/1487)
+
 ## libsdformat 15.X
 
 ### libsdformat 15.3.0 (2025-05-16)
@@ -195,6 +266,55 @@
     * [Pull request #1338](https://github.com/gazebosim/sdformat/pull/1338)
 
 ## libsdformat 14.X
+
+### libsdformat 14.8.0 (2025-07-02)
+
+1. Improve error messages when embedSdf.py fails
+    * [Pull request #1550](https://github.com/gazebosim/sdformat/pull/1550)
+
+1. Add AxisAlignedBox getters for all relevant geometries
+    * [Pull request #1547](https://github.com/gazebosim/sdformat/pull/1547)
+
+1. Unify Python3_Development_FOUND checks
+    * [Pull request #1541](https://github.com/gazebosim/sdformat/pull/1541)
+
+1. Add policy for handling CalculateInertial failures
+    * [Pull request #1543](https://github.com/gazebosim/sdformat/pull/1543)
+
+### libsdformat 14.7.0 (2025-01-30)
+
+1. Resolve auto inertia based on input mass
+    * [Pull request #1513](https://github.com/gazebosim/sdformat/pull/1513)
+    * [Pull request #1530](https://github.com/gazebosim/sdformat/pull/1530)
+
+1. Print auto inertial values with gz sdf --print --expand-auto-inertials
+    * [Pull request #1422](https://github.com/gazebosim/sdformat/pull/1422)
+
+1. Only look for psutil if testing is enabled
+    * [Pull request #1495](https://github.com/gazebosim/sdformat/pull/1495)
+
+### libsdformat 14.6.0 (2024-11-18)
+
+1. Support removing the actor, light, or model from the root.
+    * [Pull request #1492](https://github.com/gazebosim/sdformat/pull/1492)
+
+1. Backport: Permit building python bindings separately from libsdformat library.
+    * [Pull request #1497](https://github.com/gazebosim/sdformat/pull/1497)
+
+1. Backport: Improve installation instructions.
+    * [Pull request #1496](https://github.com/gazebosim/sdformat/pull/1496)
+
+1. Backport: Fix symbol checking test when compiled with debug symbols.
+    * [Pull request #1476](https://github.com/gazebosim/sdformat/pull/1476)
+
+1. Update joinPaths implementation in InstallationDirectories.
+    * [Pull request #1469](https://github.com/gazebosim/sdformat/pull/1469)
+
+1. Decouple linking to shlwapi from `BUILD_TESTING`.
+    * [Pull request #1468](https://github.com/gazebosim/sdformat/pull/1468)
+
+1. Add optional binary relocatability.
+    * [Pull request #1414](https://github.com/gazebosim/sdformat/pull/1414)
 
 ### libsdformat 14.5.0 (2024-08-05)
 

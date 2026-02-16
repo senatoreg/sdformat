@@ -10,10 +10,10 @@ Note: The branch name in the codecov URL & library version should be updated whe
 -->
 Build | Status
 -- | --
-Test coverage | [![codecov](https://codecov.io/gh/gazebosim/sdformat/tree/sdf15/graph/badge.svg)](https://codecov.io/gh/gazebosim/sdformat/tree/sdf15)
-Ubuntu Jammy  | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-ci-sdf15-noble-amd64)](https://build.osrfoundation.org/job/sdformat-ci-sdf15-noble-amd64)
-Homebrew      | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-ci-sdf15-homebrew-amd64)](https://build.osrfoundation.org/job/sdformat-ci-sdf15-homebrew-amd64)
-Windows       | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-sdf15-clowin)](https://build.osrfoundation.org/job/sdformat-sdf15-clowin)
+Test coverage | [![codecov](https://codecov.io/gh/gazebosim/sdformat/tree/sdf16/graph/badge.svg)](https://codecov.io/gh/gazebosim/sdformat/tree/sdf16)
+Ubuntu Noble  | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-ci-sdf16-noble-amd64)](https://build.osrfoundation.org/job/sdformat-ci-sdf16-noble-amd64)
+Homebrew      | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-ci-sdf16-homebrew-amd64)](https://build.osrfoundation.org/job/sdformat-ci-sdf16-homebrew-amd64)
+Windows       | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=sdformat-sdf16-cnlwin)](https://build.osrfoundation.org/job/sdformat-sdf16-cnlwin)
 
 
 SDFormat is an XML file format that describes environments, objects, and robots
@@ -114,7 +114,7 @@ conda install libsdformat=12.5.0 --channel conda-forge
 ## Source Installation
 
 
-**Note:** the `main` branch is under development for `libsdformat15` and is
+**Note:** the `main` branch is under development for `libsdformat16` and is
 currently unstable. A release branch (`sdf12`, `sdf11`, `sdf10`, `sdf9`, etc.)
 is recommended for most users.
 

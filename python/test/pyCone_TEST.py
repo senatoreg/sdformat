@@ -18,8 +18,8 @@ import copy
 
 import math
 
-from gz_test_deps.math import AxisAlignedBox, Vector3d
-from gz_test_deps.sdformat import Cone
+from gz.math import AxisAlignedBox, Vector3d
+from sdformat import Cone
 
 import unittest
 
@@ -82,7 +82,6 @@ class ConeTEST(unittest.TestCase):
     self.assertEqual(0.3, cone.length())
     self.assertEqual(0.2, cone2.radius())
     self.assertEqual(3.0, cone2.length())
-
 
   def test_deepcopy(self):
     cone = Cone();
