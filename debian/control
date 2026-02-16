@@ -23,7 +23,7 @@ Section: libdevel
 Architecture: any
 Multi-Arch: same
 Depends:
- libsdformat15 (= ${binary:Version}),
+ libsdformat16 (= ${binary:Version}),
  ${misc:Depends},
 Description: Simulation Description Format (SDFormat) parser and description files - development files
  SDFormat is an XML file format that describes environments, objects, and robots
@@ -33,7 +33,7 @@ Description: Simulation Description Format (SDFormat) parser and description fil
  format of SDFormat is also described by XML, which facilitates updates and allows
  conversion from previous versions.
 
-Package: libsdformat15
+Package: libsdformat16
 Architecture: any
 Multi-Arch: same
 Depends:
@@ -54,7 +54,7 @@ Depends:
  ruby,
  ${shlibs:Depends},
  ${misc:Depends},
- libsdformat15 (= ${binary:Version}),
+ libsdformat16 (= ${binary:Version}),
 Description: Simulation Description Format (SDFormat) parser and description files
  SDFormat is an XML file format that describes environments, objects, and robots
  in a manner suitable for robotic applications. SDFormat is capable of representing
@@ -70,7 +70,7 @@ Depends:
  ${python3:Depends},
  ${shlibs:Depends},
  ${misc:Depends},
- libsdformat15 (= ${binary:Version}),
+ libsdformat16 (= ${binary:Version}),
 Description: Simulation Description Format (SDFormat) parser and description files
  SDFormat is an XML file format that describes environments, objects, and robots
  in a manner suitable for robotic applications. SDFormat is capable of representing
